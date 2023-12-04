@@ -5,7 +5,13 @@ import "sync"
 type SyncMap[K comparable, V any] struct {
 	// sync.Map is exported for flexibility, so you can still
 	// use it if required
-	sync.Map
+	*sync.Map
+}
+
+func NewSyncMap[K comparable, V any]() *SyncMap[K, V] {
+	return &SyncMap[K, V]{
+		Map: new(sync.Map),
+	}
 }
 
 func (m *SyncMap[K, V]) Load(key K) (value V, ok bool) {
